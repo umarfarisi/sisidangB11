@@ -1,0 +1,13 @@
+h1{
+	text-align: center;
+	margin-top: 100px;
+}
+#formLogin{
+	margin: 40px auto;
+	max-width: 400px;
+}
+.invalidInput{
+	border-style: solid;
+	border-width: 2px;
+	border-color: red;
+}
