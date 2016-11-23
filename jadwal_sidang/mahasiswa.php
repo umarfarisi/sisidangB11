@@ -21,7 +21,7 @@
 				$row_dosen_penguji = pg_fetch_all($result_dosen_penguji);
 				if($row !== FALSE && $row_dosen_penguji !== FALSE){
 					for($i = 0 ; $i < count($row) ; $i++){
-						if($row[$i]["issiapsidang"]){
+						if($row[$i]["issiapsidang"] === "t"){
 							echo "<table class=\"table table-hover containers\" >";
 							echo "<tr>";
 							echo "<th>Judul Tugas Akhir</th><td>".$row[$i]["judul"]."</td>";
@@ -47,7 +47,7 @@
 							echo "</tr>";
 							echo "</table>";
 						}else{
-							echo "Maaf, Jadwal Sidang Blom Diijinkan";
+							echo "<h2>Maaf, Jadwal Sidang Blom Diijinkan<h2>";
 						}
 					}
 				}else{

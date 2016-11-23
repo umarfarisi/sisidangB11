@@ -10,6 +10,10 @@
 			text-align: center;
 			margin: 10px 0px;
 		}
+		h2{
+			text-align: center;
+			margin: 10px 0px;
+		}
 	  	.containers{
 	  		max-width: 600px;
 	  		margin: 10px auto;
@@ -31,7 +35,7 @@ if(isset($_SESSION["role"])){
   }else if($_SESSION["role"] === "admin"){
     include "admin.php";
   }else if($_SESSION["role"] === "dosen"){
-    include "admin.php";
+    include "dosen.php";
   }
 }
 
