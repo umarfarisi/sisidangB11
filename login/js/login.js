@@ -1,24 +1,13 @@
 $ ( document ). ready ( function (){
 
-	// cekUser();
+	cekUser();
 
 	//Untuk mengecek apakah user sudah login atau belum
-	// function cekUser(){
-	// 	var url = "http://localhost/PPWC_14/Login/login.php";
-	// 	$.ajax({
-	// 		type : 'GET',
-	// 		url : url,
-	// 		dataType : 'text',
-	// 		success : function(result){
-	// 			if(result === "user sudah login"){
-	// 				window.open("../Main/main.html","_self");
-	// 			}
-	// 		},
-	// 		error : function(a,error,z){
-	// 			alert("Gagal terhubung dengan server, error: "+error);
-	// 		}
-	// 	});
-	// }
+	function cekUser(){
+		if(sessionStorage.getItem("user") !== null){
+			window.open("../main/main.php","_self");
+		}
+	}
 
 	$('#loginButton').click(function(){
 		var $username = $('#username');
@@ -65,7 +54,7 @@ $ ( document ). ready ( function (){
 					case "match":
 						var user = data.message;
 						sessionStorage.setItem("user",user);
-						window.open("../main/main.php");
+						window.open("../main/main.php","_self");
 						break;
 					case "dismatch":
 						alert(data.message);
