@@ -38,7 +38,7 @@
 			if(isset($_SESSION["start"])){
 				$start = $_SESSION["start"];
 			}
-			$sql = "SELECT JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, DPN.Nama as Dosen_Pembimbing, DPI.Nama as Dosen_Penguji, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, DOSEN DPN, DOSEN DPI, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS, DOSEN_PENGUJI DDPI, DOSEN_PEMBIMBING DDPN WHERE JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.IDMKS = DDPI.IDMKS AND MKS.IDMKS = DDPN.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND DDPI.NIPDosenPenguji = DPI.NIP AND DDPN.NIPDosenPembimbing = DPN.NIP AND MKS.IsSiapSidang = true ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10;";
+			$sql = "SELECT JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, DPN.Nama as Dosen_Pembimbing, DPI.Nama as Dosen_Penguji, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, DOSEN DPN, DOSEN DPI, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS, DOSEN_PENGUJI DDPI, DOSEN_PEMBIMBING DDPN WHERE JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.IDMKS = DDPI.IDMKS AND MKS.IDMKS = DDPN.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND DDPI.NIPDosenPenguji = DPI.NIP AND DDPN.NIPDosenPembimbing = DPN.NIP AND MKS.IsSiapSidang = true ORDER BY M.Nama, JMKS.NamaMKS , JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10;";
 			$result = pg_query($conn, $sql);
 			
 			if($result !== FALSE){
