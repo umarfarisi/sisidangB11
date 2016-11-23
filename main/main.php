@@ -59,7 +59,7 @@ session_start();
         <ul class="dropdown-menu">
           <li id="buat-jadwal-sidang-mks"><a href="#">Buat Jadwal Sidang MKS</a></li>
           <li id="buat-jadwal-non-sidang-dosen"><a href="#">Buat Jadwal Non-Sidang Dosen</a></li>
-          <li id="lihat-jadwal-sidang"><a href="#">Lihat Jadwal Sidang</a></li>
+          <li id="lihat-jadwal-sidang"><a href="../jadwal_sidang/jadwal_sidang.php">Lihat Jadwal Sidang</a></li>
         </ul>
       </li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mata Kuliah Sepesial<span class="caret"></span></a>
