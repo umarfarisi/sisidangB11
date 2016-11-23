@@ -1,3 +1,9 @@
+<?php
+
+include "../database-config.php";
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +19,8 @@
           function cekUser(){
             if(sessionStorage.getItem("user") === null){
               window.open("../login/login.html","_self");
+            }else{
+              $("#username").html("Welcome "+sessionStorage.getItem("user")+", ");
             }
           }
 
@@ -29,7 +37,7 @@
 	  		float: right;
 	  	}
 	  	.containers{
-	  		max-width: 1400px;
+	  		max-width: 1200px;
 	  		margin: auto;
 	  	}
       .search-input{
@@ -44,7 +52,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">SI Sidang</a>
+      <a class="navbar-brand" href="#" id="username">SI Sidang</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Jadwal<span class="caret"></span></a>
@@ -65,7 +73,17 @@
   </div>
 </nav>
 
-<?php include "admin.php" ?>
+<?php 
+if(isset($_SESSION["role"])){
+  if($_SESSION["role"] === "mahasiswa"){
+    include "mahasiswa.php";
+  }else if($_SESSION["role"] === "admin"){
+    include "admin.php";
+  }else if($_SESSION["role"] === "dosen"){
+    include "admin.php";
+  }
+}
+?>
 
 </body>
 </html>

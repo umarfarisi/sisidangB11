@@ -3,6 +3,7 @@
 if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["role"])){
 
 	include "../database-config.php";
+	session_start();
 	
 	if (!$conn) {
 		die("Connection failed: " . mysqli_connect_error());
@@ -22,6 +23,8 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["role"
 					$password_from_server = $row["password"];
 					$password_from_user = $_POST["password"];
 					if($password_from_server === $password_from_user){
+						$_SESSION["username"] = $_POST["username"];
+						$_SESSION["role"] = $_POST["role"];
 						$output = array("result"=>"match", "message"=>$row);
 						echo json_encode($output);
 					}else{
@@ -39,6 +42,8 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["role"
 		}else if($table === "admin"){
 			if($_POST["username"] === "admin"){
 				if($_POST["password"] === "rahasia"){
+					$_SESSION["username"] = "admin";
+					$_SESSION["role"] = "admin";
 					$row = array("result"=>"admin", "message"=>"");
 					echo json_encode($row);
 				}else{

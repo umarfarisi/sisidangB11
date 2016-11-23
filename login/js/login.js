@@ -52,7 +52,7 @@ $ ( document ). ready ( function (){
 				var data = JSON.parse(result);
 				switch(data.result){
 					case "match":
-						var user = data.message;
+						var user = data.message.username;
 						sessionStorage.setItem("user",user);
 						window.open("../main/main.php","_self");
 						break;
@@ -60,7 +60,9 @@ $ ( document ). ready ( function (){
 						alert(data.message);
 						break;
 					case "admin":
-						alert("Admin has login");
+						var user = "Admin";
+						sessionStorage.setItem("user",user);
+						window.open("../main/main.php","_self");
 						break;
 					default:
 						"user tidak ditemukan";
