@@ -2,12 +2,7 @@
 
 if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["role"])){
 
-	$host = "localhost"; 
-	$user = "postgres"; 
-	$pass = "basdattugasakhir"; 
-	$db = "postgres"; 
-
-	$conn = pg_connect("host=$host dbname=$db user=$user password=$pass") ;
+	include "../database-config.php";
 	
 	if (!$conn) {
 		die("Connection failed: " . mysqli_connect_error());

@@ -64,7 +64,8 @@ $ ( document ). ready ( function (){
 				switch(data.result){
 					case "match":
 						var user = data.message;
-						alert(user.username);
+						sessionStorage.setItem("user",user);
+						window.open("../main/main.php");
 						break;
 					case "dismatch":
 						alert(data.message);
