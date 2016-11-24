@@ -2,8 +2,17 @@
 
 	include "../database-config.php";
 
-	if(isset($_POST["start"])){
-		$sql = "SELECT MKS.IDMKS, JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS WHERE JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND MKS.IsSiapSidang = true ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10 OFFSET ".$_POST["start"].";";
+	if(isset($_POST["start"]) && isset($_POST["searchBy"]) && isset($_POST["term"]) && isset($_POST["jenisSidang"]) && isset($_POST["npm"]) && isset($_POST["start"])){
+		$sql = "SELECT MKS.IDMKS, JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS ,TERM T WHERE T.TAHUN = MKS.TAHUN AND T.SEMESTER = MKS.SEMESTER AND JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND MKS.IsSiapSidang = true ";
+		if($_POST["searchBy"] === "jenisSidang"){
+			$term = explode("/", $_POST["term"]);
+			$tahun = $term[0];
+			$semester = $term[1];
+			$sql .= " AND JMKS.NamaMKS = '".$_POST["jenisSidang"]."' AND T.Tahun = $tahun AND T.Semester = $semester ";
+		}else if($_POST["searchBy"] === "mahasiswa"){
+			$sql .= " AND M.NPM = '".$_POST["npm"]."' ";
+		}
+		$sql .= " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10 OFFSET ".$_POST["start"].";";
 
 		$result = pg_query($conn, $sql);
 
