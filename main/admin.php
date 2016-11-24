@@ -5,7 +5,124 @@
 	<script type="text/javascript">
 		$ ( document ). ready ( function (){
 
+			var countPref = new Array(0);
+			var start = 0;
+			var nextNav = false;
+			var prefNav = false;
+
+			navigationSetting(start, true);
+
+			$("#nav-next-btn").click(function(){
+				start += countPref[countPref.length-1];
+				navigationSetting(start, true);
+			});
+			$("#nav-pref-btn").click(function(){
+				start -= countPref[countPref.length-2];
+				countPref.pop();
+				navigationSetting(start, false);
+			});
+
+			function navigationSetting(start, isNext){
+				var url = "http://localhost/sisidangB11/main/admin-data.php";
+				$.ajax({
+					type : 'POST',
+					url : url,
+					dataType : 'text',
+					data : {
+						start: start,
+						username: sessionStorage.getItem("user")
+					},
+					success : function(results){
+						var data = JSON.parse(results);
+
+						if(data.result === "sukses"){
+							var rows = data.data;
+							if(isNext){
+								countPref.push(data.count);
+
+								if(data.count > 9){
+									countPref.pop();
+									countPref.push(9);
+									nextNav = true;
+								}else{
+									nextNav = false;
+								}
+							}else{
+								nextNav = true;
+							}
+
+							$("#total-row p span").html(" countPref: "+countPref[countPref.length-1]+" Start: "+start+" countPref.Length: "+countPref.length);
+
+							prefNav = start !== 0;
+
+							if(nextNav){
+								$("#nav-next-btn").css("display","inline-block");
+							}else{
+								$("#nav-next-btn").css("display","none");
+							}
+							if(prefNav){
+								$("#nav-pref-btn").css("display","inline-block");
+							}else{
+								$("#nav-pref-btn").css("display","none");
+							}
+
+							$("#table-jadwal-sidang").empty();
+							$("#table-jadwal-sidang").append("<tr>"
+									+"<th>Jenis Sidang</th>"
+									+"<th>Mahasiswa</th>"
+									+"<th>Dosen Pembimbing</th>"
+									+"<th>Dosen Penguji</th>"
+									+"<th>Waktu dan Lokasi</th>"
+									+"<th>Action</th>"
+									+"</tr>");
+
+
+							for(var i = 0 ; i < rows.length && i < 9 ; i++){
+								var mahasiswa = rows[i].mahasiswa;
+								var jenisSidang = rows[i].jenis_sidang;
+								var waktuDanLokasi = rows[i].tanggal+" || "+rows[i].jam_mulai+"-"+rows[i].jam_selesai+" || "+rows[i].namaruangan;
+								var pembimbing = "";
+								for(var j = 0 ; j < rows[i].pembimbing.length ; j++){
+									pembimbing += rows[i].pembimbing[j].nama;
+									if(j !== rows[i].pembimbing.length){
+										pembimbing += ", ";
+									}
+								}
+								var penguji = "";
+								for(var j = 0 ; j < rows[i].penguji.length ; j++){
+									penguji += rows[i].penguji[j].nama;
+									if(j !== rows[i].penguji.length){
+										penguji += ", ";
+									}
+								}
+								$("#table-jadwal-sidang").append(""
+									+"<tr>"
+									+"<td>"+jenisSidang+"</td>"
+									+"<td>"+mahasiswa+"</td>"
+									+"<td>"+waktuDanLokasi+"</td>"
+									+"<td>"+pembimbing+"</td>"
+									+"<td>"+penguji+"</td>"
+									+"<td><button>Edit</button></td>"
+									+"</tr>");
+							}
+
+
+						}else{
+
+						}
+					},
+					error : function(a,error,z){
+						alert("Login error "+error);
+					}
+				});
+			}
+
 			$("#search-btn").click(function(){
+
+				countPref = new Array(0);
+				start = 0;
+				nextNav = false;
+				prefNav = false;
 
 				var url = "http://localhost/sisidangB11/main/search-helper.php";
 				$.ajax({
@@ -13,13 +130,13 @@
 					url : url,
 					dataType : 'text',
 					data : {
+						start: start,
 						searchBy: $("#search-by").val(),
 						term: $("#search-by-term").val(),
 						jenisSidang: $("#search-by-jenis-sidang").val(),
 						npm: $("#search-by-npm").val()
 					},
 					success : function(result){
-						console.log(result);
 						$("#table-jadwal-sidang").empty();
 						$("#table-jadwal-sidang").append("<tr>"+
 							"<th>Jenis Sidang</th>"+
@@ -31,7 +148,6 @@
 							"</tr>");
 						var data = JSON.parse(result);
 						for(var i = 0 ; i < data.length ; i++){
-							// alert(data[i].tanggal);
 							$("#table-jadwal-sidang").append("<tr>"+
 								"<td>"+data[i].jenis_sidang+"</td>"+
 								"<td>"+data[i].mahasiswa+"</td>"+
@@ -73,6 +189,28 @@
 			});
 		});
 	</script>
+	<style type="text/css">
+		#containers-nav-button{
+			max-width: 1600px;
+	  		margin: 10px auto;
+	  		padding: 0px
+		}
+	  	#total-row{
+	  		background-color: gray;
+	  		color: white;
+	  	}
+	  	#total-row p{
+	  		padding-top: 10px;
+	  		padding-bottom: 10px;
+	  		padding-left: 10px;
+	  		font-size: 20px;
+	  	}
+	  	.nav-button{
+	  		width: 50%
+	  		margin-right:5px;
+	  		margin-left:5px;
+	  	}
+	</style>
 </head>
 <body>
 	<div id="search-jadwal-sidang" class="containers">
@@ -152,45 +290,14 @@
 	  	<button id="search-btn" class="btn btn-primary btn-block search-input" style="display:none">Cari Jadwal Sidang</button>
 	</div>
 	<table class="table table-hover containers" id="table-jadwal-sidang">
-		<tr>
-			<th>Jenis Sidang</th>
-			<th>Mahasiswa</th>
-			<th>Dosen Pembimbing</th>
-			<th>Dosen Penguji</th>
-			<th>Waktu dan Lokasi</th>
-			<th>Action</th>
-		</tr>
-
-		<?php
-			$start = 0;
-			if(isset($_SESSION["start"])){
-				$start = $_SESSION["start"];
-			}
-			$sql = "SELECT JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, DPN.Nama as Dosen_Pembimbing, DPI.Nama as Dosen_Penguji, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, DOSEN DPN, DOSEN DPI, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS, DOSEN_PENGUJI DDPI, DOSEN_PEMBIMBING DDPN WHERE JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.IDMKS = DDPI.IDMKS AND MKS.IDMKS = DDPN.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND DDPI.NIPDosenPenguji = DPI.NIP AND DDPN.NIPDosenPembimbing = DPN.NIP AND MKS.IsSiapSidang = true ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10;";
-			$result = pg_query($conn, $sql);
-			
-			if($result !== FALSE){
-				$row = pg_fetch_all($result);
-				if($row !== FALSE){
-					for($i = 0 ; $i < count($row) ; $i++){
-						echo "<tr>";
-						echo "<td>".$row[$i]["jenis_sidang"]."</td>";
-						echo "<td>".$row[$i]["mahasiswa"]."</td>";
-						echo "<td>".$row[$i]["dosen_pembimbing"]."</td>";
-						echo "<td>".$row[$i]["dosen_penguji"]."</td>";
-						echo "<td>".$row[$i]["tanggal"]." || ".$row[$i]["jam_mulai"]." || ".$row[$i]["jam_selesai"]." || ".$row[$i]["namaruangan"]."</td>";
-						echo "<td><button class=\"btn btn-default\" >Edit</button></td>";
-						echo "</tr>";
-					}
-				}else{
-					// echo "Data Tidak Ada";
-				}
-			}else{
-				// echo "Data Tidak Ada";
-			}
-
-		?>
 
 	</table>
+	<div id="total-row" class="containers">
+		<p><span></span></p>
+	</div>
+	<div id="containers-nav-button" >
+		<button id="nav-pref-btn" class="btn btn-primary nav-button">Sebelumnya</button>
+		<button id="nav-next-btn" class="btn btn-primary nav-button">Selanjutnya</button>
+	</div>
 </body>
 </html>

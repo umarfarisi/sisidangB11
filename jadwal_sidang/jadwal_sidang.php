@@ -15,7 +15,7 @@
 			margin: 10px 0px;
 		}
 	  	.containers{
-	  		max-width: 600px;
+	  		max-width: 1600px;
 	  		margin: 10px auto;
 	  	}
 	</style>
@@ -35,7 +35,7 @@ if(isset($_SESSION["role"])){
   }else if($_SESSION["role"] === "admin"){
     include "admin.php";
   }else if($_SESSION["role"] === "dosen"){
-    include "dosen.php";
+    include "dosen.html";
   }
 }
 

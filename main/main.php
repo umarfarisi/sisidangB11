@@ -37,7 +37,7 @@ session_start();
 	  		float: right;
 	  	}
 	  	.containers{
-	  		max-width: 1200px;
+	  		max-width: 1600px;
 	  		margin: auto;
 	  	}
       .search-input{
@@ -80,7 +80,7 @@ if(isset($_SESSION["role"])){
   }else if($_SESSION["role"] === "admin"){
     include "admin.php";
   }else if($_SESSION["role"] === "dosen"){
-    include "admin.php";
+    include "dosen.php";
   }
 }
 ?>
