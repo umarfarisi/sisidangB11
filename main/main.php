@@ -37,7 +37,7 @@ session_start();
 	  		float: right;
 	  	}
 	  	.containers{
-	  		max-width: 1600px;
+	  		max-width: 1000px;
 	  		margin: auto;
 	  	}
       .search-input{
