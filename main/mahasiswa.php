@@ -2,6 +2,18 @@
 <html>
 <head>
 	<title></title>
+	<script type="text/javascript">
+		$ ( document ). ready ( function (){
+
+			hideMenuWhitchNotAllowedToAccess();
+
+			function hideMenuWhitchNotAllowedToAccess(){
+				$("#buat-jadwal-sidang-mks").css("display","none");
+				$("#buat-jadwal-non-sidang-dosen").css("display","none");
+				$("#lihat-dftar-mks").css("display","none");
+			}
+		});
+	</script>
 </head>
 <body>
 	<div class="containers">
