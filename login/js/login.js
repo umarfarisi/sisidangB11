@@ -5,7 +5,7 @@ $ ( document ). ready ( function (){
 	//Untuk mengecek apakah user sudah login atau belum
 	function cekUser(){
 		if(sessionStorage.getItem("user") !== null){
-			window.open("../main/main.php","_self");
+			window.open("../Main","_self");
 		}
 	}
 
@@ -54,7 +54,7 @@ $ ( document ). ready ( function (){
 					case "match":
 						var user = data.message.username;
 						sessionStorage.setItem("user",user);
-						window.open("../main/main.php","_self");
+						window.open("../Main","_self");
 						break;
 					case "dismatch":
 						alert(data.message);
@@ -62,7 +62,7 @@ $ ( document ). ready ( function (){
 					case "admin":
 						var user = "Admin";
 						sessionStorage.setItem("user",user);
-						window.open("../main/main.php","_self");
+						window.open("../Main","_self");
 						break;
 					default:
 						"user tidak ditemukan";
@@ -82,7 +82,7 @@ $ ( document ). ready ( function (){
 		}else{
 			sessionStorage.setItem("user",result);
 			//TODO buka halaman selanjutnya
-			window.open("../Main/main.html","_self");
+			window.open("../Main","_self");
 		}
 	}
 } );

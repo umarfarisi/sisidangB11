@@ -5,12 +5,13 @@
 	<script type="text/javascript">
 		$ ( document ). ready ( function (){
 
-			populateDataMahasiswa();
+			hideMenuWhitchNotAllowedToAccess();
 
-			function populateDataMahasiswa(){
-				var username = sessionStorage.getItem("user");
+			function hideMenuWhitchNotAllowedToAccess(){
+				$("#buat-jadwal-sidang-mks").css("display","none");
+				$("#buat-jadwal-non-sidang-dosen").css("display","none");
+				$("#lihat-dftar-mks").css("display","none");
 			}
-
 		});
 	</script>
 </head>
@@ -58,7 +59,7 @@
 				}
 				
 			}else{
-				echo "TIDAAAA";
+				// echo "TIDAAAA";
 			}
 
 		?>

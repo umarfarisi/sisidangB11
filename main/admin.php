@@ -5,29 +5,31 @@
 	<script type="text/javascript">
 		$ ( document ). ready ( function (){
 
-			var countPref = new Array(0);
-			var start = 0;
-			var nextNav = false;
-			var prefNav = false;
+			var countPref;
+			var start;
+			var nextNav;
+			var prefNav;
+			var data;
 
-			navigationSetting(start, true);
+			initVariable();
+			getDataFromServer(true);
+			
 
-			$("#nav-next-btn").click(function(){
-				start += countPref[countPref.length-1];
-				navigationSetting(start, true);
-			});
-			$("#nav-pref-btn").click(function(){
-				start -= countPref[countPref.length-2];
-				countPref.pop();
-				navigationSetting(start, false);
-			});
+			function initVariable() {
+				countPref = new Array(0);
+				start = 0;
+				nextNav = false;
+				prefNav = false;
+				data = {start: start};
+			}
 
-			function navigationSetting(start, isNext){
+			function loadAJAX(data, onSuccess){
 				var url = "http://localhost/sisidangB11/main/admin-data.php";
 				$.ajax({
 					type : 'POST',
 					url : url,
 					dataType : 'text',
+<<<<<<< HEAD
 					data : {
 						start: start,
 						username: sessionStorage.getItem("user"),
@@ -110,25 +112,109 @@
 									+"<td><button>Edit</button></td>"
 									+"</tr>");
 							}
-
-
-						}else{
-
-						}
-					},
+=======
+					data : data,
+					success : onSuccess,
 					error : function(a,error,z){
-						alert("Login error "+error);
+						alert("Data transmitte error "+error);
 					}
 				});
 			}
 
+			function onDataSuccess(results, isNext){
+
+				console.log(results);
+
+				var data = JSON.parse(results);
+>>>>>>> implementasi_2
+
+				if(data.result === "sukses"){
+					var rows = data.data;
+					if(isNext){
+						countPref.push(data.count);
+
+						if(data.count > 10){
+							countPref.pop();
+							countPref.push(10);
+							nextNav = true;
+						}else{
+							nextNav = false;
+						}
+					}else{
+						nextNav = true;
+					}
+
+					$("#total-row p span").html("Count: "+countPref[countPref.length-1]);
+
+					prefNav = start !== 0;
+
+					if(nextNav){
+						$("#nav-next-btn").css("display","inline-block");
+					}else{
+						$("#nav-next-btn").css("display","none");
+					}
+					if(prefNav){
+						$("#nav-pref-btn").css("display","inline-block");
+					}else{
+						$("#nav-pref-btn").css("display","none");
+					}
+
+					$("#table-jadwal-sidang").empty();
+					$("#table-jadwal-sidang").append("<thead>");
+					$("#table-jadwal-sidang").append("<tr>"
+							+"<th>Jenis Sidang</th>"
+							+"<th>Mahasiswa</th>"
+							+"<th>Dosen Pembimbing</th>"
+							+"<th>Dosen Penguji</th>"
+							+"<th>Waktu dan Lokasi</th>"
+							+"<th>Action</th>"
+							+"</tr>");
+					$("#table-jadwal-sidang").append("</thead>");
+					$("#table-jadwal-sidang").append("</tbody>");
+					$("#table-jadwal-sidang").append("<tbody>");
+
+					for(var i = 0 ; i < rows.length && i < 10 ; i++){
+						var mahasiswa = rows[i].mahasiswa;
+						var jenisSidang = rows[i].jenis_sidang;
+						var waktuDanLokasi = rows[i].tanggal+" || "+rows[i].jam_mulai+"-"+rows[i].jam_selesai+" || "+rows[i].namaruangan;
+						var pembimbing = "<ul class=\"daftar-dosen\">";
+						for(var j = 0 ; j < rows[i].pembimbing.length ; j++){
+							pembimbing += "<li>"+rows[i].pembimbing[j].nama+"</li>";
+						}
+						pembimbing += "</ul>";
+						var penguji = "<ul class=\"daftar-dosen\">";
+						for(var j = 0 ; j < rows[i].penguji.length ; j++){
+							penguji += "<li>"+rows[i].penguji[j].nama+"</li>";
+						}
+						penguji += "</ul>";
+						$("#table-jadwal-sidang").append(""
+							+"<tr>"
+							+"<td>"+jenisSidang+"</td>"
+							+"<td>"+mahasiswa+"</td>"
+							+"<td>"+pembimbing+"</td>"
+							+"<td>"+penguji+"</td>"
+							+"<td>"+waktuDanLokasi+"</td>"
+							+"<td><button class=\"btn btn-success\">Edit</button></td>"
+							+"</tr>");
+					}
+
+					$("#table-jadwal-sidang").append("</tbody>");
+
+
+				}else{
+
+				}
+			}
+
+			function getDataFromServer(isNext){
+				loadAJAX(data, function(result){onDataSuccess(result, isNext)});
+			}
+
 			$("#search-btn").click(function(){
 
-				countPref = new Array(0);
-				start = 0;
-				nextNav = false;
-				prefNav = false;
+				initVariable();
 
+<<<<<<< HEAD
 				navigationSetting(start, true);
 
 				// var url = "http://localhost/sisidangB11/main/search-helper.php";
@@ -169,6 +255,17 @@
 				// 		alert("Login error "+error);
 				// 	}
 				// });
+=======
+				data = {
+						start: start,
+						searchBy: $("#search-by").val(),
+						term: $("#search-by-term").val(),
+						jenisSidang: $("#search-by-jenis-sidang").val(),
+						npm: $("#search-by-npm").val()
+					};
+
+				getDataFromServer(true);
+>>>>>>> implementasi_2
 			});
 
 			$("#search-by").change(function(){
@@ -194,6 +291,7 @@
 						$("#search-by-jenis-sidang").css("display","none");
 						$("#search-by-npm").css("display","none");
 						$("#search-btn").css("display","none");
+<<<<<<< HEAD
 						$("#search-by").val("default");
 						$("#search-by-term").val("default");
 						$("#search-by-jenis-sidang").val("default");
@@ -206,14 +304,32 @@
 
 						navigationSetting(start, true);
 
+=======
+						initVariable();
+						getDataFromServer(true);
+>>>>>>> implementasi_2
 						break;
 				}
 			});
+
+			$("#nav-next-btn").click(function(){
+				start += countPref[countPref.length-1];
+				data = {start: start};
+				getDataFromServer(true);
+			});
+			
+			$("#nav-pref-btn").click(function(){
+				start -= countPref[countPref.length-2];
+				data = {start: start};
+				countPref.pop();
+				getDataFromServer(false);
+			});
+
 		});
 	</script>
 	<style type="text/css">
 		#containers-nav-button{
-			max-width: 1600px;
+			max-width: 1000px;
 	  		margin: 10px auto;
 	  		padding: 0px
 		}
@@ -231,6 +347,12 @@
 	  		width: 50%
 	  		margin-right:5px;
 	  		margin-left:5px;
+	  	}
+	  	#table-jadwal-sidang{
+	  		margin-top: 15px;
+	  	}
+	  	.daftar-dosen{
+	  		padding: 10px;
 	  	}
 	</style>
 </head>
