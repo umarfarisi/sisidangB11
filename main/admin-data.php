@@ -4,7 +4,7 @@
 
 	if(isset($_POST["start"])){
 
-		$sql = "SELECT mks.idmks, JMKS.NamaMKS as jenis_sidang, M.Nama as mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan from jenismks jmks, mata_kuliah_spesial mks, mahasiswa m, jadwal_sidang js, ruangan r, term t where jmks.id = mks.idjenismks and mks.npm = m.npm and mks.idmks = js.idmks and js.idruangan = r.idruangan and mks.issiapsidang = true " ;
+		$sql = "SELECT mks.judul, mks.idmks, JMKS.NamaMKS as jenis_sidang, M.Nama as mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan from jenismks jmks, mata_kuliah_spesial mks, mahasiswa m, jadwal_sidang js, ruangan r, term t where jmks.id = mks.idjenismks and mks.npm = m.npm and mks.idmks = js.idmks and js.idruangan = r.idruangan and mks.issiapsidang = true " ;
 
 		if(isset($_POST["searchBy"]) && isset($_POST["term"]) && isset($_POST["jenisSidang"]) && isset($_POST["npm"])){
 			if($_POST["searchBy"] === "jenisSidang"){
