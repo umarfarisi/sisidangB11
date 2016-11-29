@@ -2,17 +2,6 @@
 <html>
 <head>
 	<title></title>
-	<script type="text/javascript">
-		$ ( document ). ready ( function (){
-
-			populateDataMahasiswa();
-
-			function populateDataMahasiswa(){
-				var username = sessionStorage.getItem("user");
-			}
-
-		});
-	</script>
 </head>
 <body>
 	<div class="containers">
@@ -58,7 +47,7 @@
 				}
 				
 			}else{
-				echo "TIDAAAA";
+				// echo "TIDAAAA";
 			}
 
 		?>

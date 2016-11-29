@@ -92,27 +92,23 @@
 						var mahasiswa = rows[i].mahasiswa;
 						var jenisSidang = rows[i].jenis_sidang;
 						var waktuDanLokasi = rows[i].tanggal+" || "+rows[i].jam_mulai+"-"+rows[i].jam_selesai+" || "+rows[i].namaruangan;
-						var pembimbing = "";
+						var pembimbing = "<ul class=\"daftar-dosen\">";
 						for(var j = 0 ; j < rows[i].pembimbing.length ; j++){
-							pembimbing += rows[i].pembimbing[j].nama;
-							if(j !== rows[i].pembimbing.length){
-								pembimbing += ", ";
-							}
+							pembimbing += "<li>"+rows[i].pembimbing[j].nama+"</li>";
 						}
-						var penguji = "";
+						pembimbing += "</ul>";
+						var penguji = "<ul class=\"daftar-dosen\">";
 						for(var j = 0 ; j < rows[i].penguji.length ; j++){
-							penguji += rows[i].penguji[j].nama;
-							if(j !== rows[i].penguji.length){
-								penguji += ", ";
-							}
+							penguji += "<li>"+rows[i].penguji[j].nama+"</li>";
 						}
+						penguji += "</ul>";
 						$("#table-jadwal-sidang").append(""
 							+"<tr>"
 							+"<td>"+jenisSidang+"</td>"
 							+"<td>"+mahasiswa+"</td>"
-							+"<td>"+waktuDanLokasi+"</td>"
 							+"<td>"+pembimbing+"</td>"
 							+"<td>"+penguji+"</td>"
+							+"<td>"+waktuDanLokasi+"</td>"
 							+"<td><button class=\"btn btn-success\">Edit</button></td>"
 							+"</tr>");
 					}
@@ -208,6 +204,9 @@
 	  	}
 	  	#table-jadwal-sidang{
 	  		margin-top: 15px;
+	  	}
+	  	.daftar-dosen{
+	  		padding: 10px;
 	  	}
 	</style>
 </head>
