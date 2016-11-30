@@ -2,19 +2,6 @@
 
 	include "../database-config.php";
 
-<<<<<<< HEAD
-	if(isset($_POST["start"]) && isset($_POST["searchBy"]) && isset($_POST["term"]) && isset($_POST["jenisSidang"]) && isset($_POST["npm"]) && isset($_POST["start"])){
-		$sql = "SELECT MKS.IDMKS, JMKS.NamaMKS as Jenis_Sidang, M.Nama as Mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan FROM JENISMKS JMKS, MAHASISWA M, JADWAL_SIDANG JS, RUANGAN R, MATA_KULIAH_SPESIAL MKS ,TERM T WHERE T.TAHUN = MKS.TAHUN AND T.SEMESTER = MKS.SEMESTER AND JS.IDRuangan = R.IDRuangan AND MKS.IDMKS = JS.IDMKS AND MKS.NPM = M.NPM AND MKS.IDJenisMKS = JMKS.ID AND MKS.IsSiapSidang = true ";
-		if($_POST["searchBy"] === "jenisSidang"){
-			$term = explode("/", $_POST["term"]);
-			$tahun = $term[0];
-			$semester = $term[1];
-			$sql .= " AND JMKS.NamaMKS = '".$_POST["jenisSidang"]."' AND T.Tahun = $tahun AND T.Semester = $semester ";
-		}else if($_POST["searchBy"] === "mahasiswa"){
-			$sql .= " AND M.NPM = '".$_POST["npm"]."' ";
-		}
-		$sql .= " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 10 OFFSET ".$_POST["start"].";";
-=======
 	if(isset($_POST["start"])){
 
 		$sql = "SELECT mks.judul, mks.idmks, JMKS.NamaMKS as jenis_sidang, M.Nama as mahasiswa, JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan from jenismks jmks, mata_kuliah_spesial mks, mahasiswa m, jadwal_sidang js, ruangan r, term t where jmks.id = mks.idjenismks and mks.npm = m.npm and mks.idmks = js.idmks and js.idruangan = r.idruangan and mks.issiapsidang = true " ;
@@ -31,7 +18,6 @@
 		}
 
 		$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
->>>>>>> implementasi_2
 
 		$result = pg_query($conn, $sql);
 

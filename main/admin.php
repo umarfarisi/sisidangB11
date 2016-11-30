@@ -29,90 +29,6 @@
 					type : 'POST',
 					url : url,
 					dataType : 'text',
-<<<<<<< HEAD
-					data : {
-						start: start,
-						username: sessionStorage.getItem("user"),
-						searchBy: $("#search-by").val(),
-						term: $("#search-by-term").val(),
-						jenisSidang: $("#search-by-jenis-sidang").val(),
-						npm: $("#search-by-npm").val()
-					},
-					success : function(results){
-						// console.log(results);
-						var data = JSON.parse(results);
-
-						if(data.result === "sukses"){
-							var rows = data.data;
-							if(isNext){
-								countPref.push(data.count);
-
-								if(data.count > 9){
-									countPref.pop();
-									countPref.push(9);
-									nextNav = true;
-								}else{
-									nextNav = false;
-								}
-							}else{
-								nextNav = true;
-							}
-
-							$("#total-row p span").html(" countPref: "+countPref[countPref.length-1]+" Start: "+start+" countPref.Length: "+countPref.length);
-
-							prefNav = start !== 0;
-
-							if(nextNav){
-								$("#nav-next-btn").css("display","inline-block");
-							}else{
-								$("#nav-next-btn").css("display","none");
-							}
-							if(prefNav){
-								$("#nav-pref-btn").css("display","inline-block");
-							}else{
-								$("#nav-pref-btn").css("display","none");
-							}
-
-							$("#table-jadwal-sidang").empty();
-							$("#table-jadwal-sidang").append("<tr>"
-									+"<th>Jenis Sidang</th>"
-									+"<th>Mahasiswa</th>"
-									+"<th>Dosen Pembimbing</th>"
-									+"<th>Dosen Penguji</th>"
-									+"<th>Waktu dan Lokasi</th>"
-									+"<th>Action</th>"
-									+"</tr>");
-
-
-							for(var i = 0 ; i < rows.length && i < 9 ; i++){
-								var mahasiswa = rows[i].mahasiswa;
-								var jenisSidang = rows[i].jenis_sidang;
-								var waktuDanLokasi = rows[i].tanggal+" || "+rows[i].jam_mulai+"-"+rows[i].jam_selesai+" || "+rows[i].namaruangan;
-								var pembimbing = "";
-								for(var j = 0 ; j < rows[i].pembimbing.length ; j++){
-									pembimbing += rows[i].pembimbing[j].nama;
-									if(j !== rows[i].pembimbing.length){
-										pembimbing += ", ";
-									}
-								}
-								var penguji = "";
-								for(var j = 0 ; j < rows[i].penguji.length ; j++){
-									penguji += rows[i].penguji[j].nama;
-									if(j !== rows[i].penguji.length){
-										penguji += ", ";
-									}
-								}
-								$("#table-jadwal-sidang").append(""
-									+"<tr>"
-									+"<td>"+jenisSidang+"</td>"
-									+"<td>"+mahasiswa+"</td>"
-									+"<td>"+waktuDanLokasi+"</td>"
-									+"<td>"+pembimbing+"</td>"
-									+"<td>"+penguji+"</td>"
-									+"<td><button>Edit</button></td>"
-									+"</tr>");
-							}
-=======
 					data : data,
 					success : onSuccess,
 					error : function(a,error,z){
@@ -126,7 +42,6 @@
 				console.log(results);
 
 				var data = JSON.parse(results);
->>>>>>> implementasi_2
 
 				if(data.result === "sukses"){
 					var rows = data.data;
@@ -214,48 +129,6 @@
 
 				initVariable();
 
-<<<<<<< HEAD
-				navigationSetting(start, true);
-
-				// var url = "http://localhost/sisidangB11/main/search-helper.php";
-				// $.ajax({
-				// 	type : 'POST',
-				// 	url : url,
-				// 	dataType : 'text',
-				// 	data : {
-				// 		start: start,
-				// 		searchBy: $("#search-by").val(),
-				// 		term: $("#search-by-term").val(),
-				// 		jenisSidang: $("#search-by-jenis-sidang").val(),
-				// 		npm: $("#search-by-npm").val()
-				// 	},
-				// 	success : function(result){
-				// 		$("#table-jadwal-sidang").empty();
-				// 		$("#table-jadwal-sidang").append("<tr>"+
-				// 			"<th>Jenis Sidang</th>"+
-				// 			"<th>Mahasiswa</th>"+
-				// 			"<th>Dosen Pembimbing</th>"+
-				// 			"<th>Dosen Penguji</th>"+
-				// 			"<th>Waktu dan Lokasi</th>"+
-				// 			"<th>Action</th>"+
-				// 			"</tr>");
-				// 		var data = JSON.parse(result);
-				// 		for(var i = 0 ; i < data.length ; i++){
-				// 			$("#table-jadwal-sidang").append("<tr>"+
-				// 				"<td>"+data[i].jenis_sidang+"</td>"+
-				// 				"<td>"+data[i].mahasiswa+"</td>"+
-				// 				"<td>"+data[i].dosen_pembimbing+"</td>"+
-				// 				"<td>"+data[i].dosen_penguji+"</td>"+
-				// 				"<td>"+data[i].tanggal+" || "+data[i].jam_mulai+" || "+data[i].jam_selesai+" || "+data[i].namaruangan+"</td>"+
-				// 				"<td><button class=\"btn btn-default\" >Edit</button></td>"+
-				// 				"</tr>");
-				// 		}
-				// 	},
-				// 	error : function(a,error,z){
-				// 		alert("Login error "+error);
-				// 	}
-				// });
-=======
 				data = {
 						start: start,
 						searchBy: $("#search-by").val(),
@@ -265,7 +138,6 @@
 					};
 
 				getDataFromServer(true);
->>>>>>> implementasi_2
 			});
 
 			$("#search-by").change(function(){
@@ -276,38 +148,20 @@
 						$("#search-by-jenis-sidang").css("display","block");
 						$("#search-by-npm").css("display","none");
 						$("#search-btn").css("display","block");
-						$("#search-by-npm").val("default");
 						break;
 					case "mahasiswa":
 						$("#search-by-term").css("display","none");
 						$("#search-by-jenis-sidang").css("display","none");
 						$("#search-by-npm").css("display","block");
 						$("#search-btn").css("display","block");
-						$("#search-by-term").val("default");
-						$("#search-by-jenis-sidang").val("default");
 						break;
 					default:
 						$("#search-by-term").css("display","none");
 						$("#search-by-jenis-sidang").css("display","none");
 						$("#search-by-npm").css("display","none");
 						$("#search-btn").css("display","none");
-<<<<<<< HEAD
-						$("#search-by").val("default");
-						$("#search-by-term").val("default");
-						$("#search-by-jenis-sidang").val("default");
-						$("#search-by-npm").val("default");
-
-						countPref = new Array(0);
-						start = 0;
-						nextNav = false;
-						prefNav = false;
-
-						navigationSetting(start, true);
-
-=======
 						initVariable();
 						getDataFromServer(true);
->>>>>>> implementasi_2
 						break;
 				}
 			});
