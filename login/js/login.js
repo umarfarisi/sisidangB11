@@ -46,8 +46,7 @@ $ ( document ). ready ( function (){
 				var data = JSON.parse(result);
 				switch(data.result){
 					case "match":
-						var user = data.message.username;
-						sessionStorage.setItem("user",user);
+						sessionStorage.setItem("user",username);
 						window.open("../Main","_self");
 						break;
 					case "dismatch":
