@@ -16,14 +16,6 @@
 	</div>
 	<div class="form-group">
 		<input type="password" class="form-control" id="password" placeholder="password" value="qdlgxwzmsv">
-	</div>
-	<div class="form-group">
-		<select class="form-control" id="role">
-		  <option value="default">-- Select your role --</option>
-		  <option value="admin">Admin</option>
-		  <option value="dosen" selected>Dosen</option>
-		  <option value="mahasiswa">Mahasiswa</option>
-		</select>
 	</div>	
 	<div>
 		<button id="loginButton" class="btn btn-primary btn-block">Login</button>

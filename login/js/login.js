@@ -12,12 +12,10 @@ $ ( document ). ready ( function (){
 	$('#loginButton').click(function(){
 		var $username = $('#username');
 		var $password = $('#password');
-		var $role = $('#role');
 		$username.removeClass("invalidInput");
 		$password.removeClass("invalidInput");
-		$role.removeClass("invalidInput");
-		if(isValid($username.val(), $password.val(), $role.val())){
-			sendDataToServer($username.val(), $password.val(), $role.val());
+		if(isValid($username.val(), $password.val())){
+			sendDataToServer($username.val(), $password.val());
 		}else{
 			if($password.val().length===0){
 				$password.addClass("invalidInput");
@@ -25,19 +23,16 @@ $ ( document ). ready ( function (){
 			if($username.val().length===0){
 				$username.addClass("invalidInput");
 			}
-			if($role.val() === "default"){
-				$role.addClass("invalidInput");
-			}
 		}
 	});
 
 	//mengecek apakah input dr user sudah valid atau belum
-	function isValid(username, passowrd, role){
-		return username.length !== 0 && passowrd.length !== 0 && role !== "default";
+	function isValid(username, passowrd){
+		return username.length !== 0 && passowrd.length !== 0;
 	}
 
 	//mengirim semua input user untuk dicek di server
-	function sendDataToServer(username, password, role){
+	function sendDataToServer(username, password){
 		var url = "http://localhost/sisidangB11/login/login.php";
 		$.ajax({
 			type : 'POST',
@@ -45,8 +40,7 @@ $ ( document ). ready ( function (){
 			dataType : 'text',
 			data : {
 				username: username,
-				password: password,
-				role: role
+				password: password
 			},
 			success : function(result){
 				var data = JSON.parse(result);
