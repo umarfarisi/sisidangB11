@@ -109,7 +109,7 @@
 							+"<td>"+pembimbing+"</td>"
 							+"<td>"+penguji+"</td>"
 							+"<td>"+waktuDanLokasi+"</td>"
-							+"<td><button class=\"btn btn-success\">Edit</button></td>"
+							+"<td><button class=\"btn btn-success edit-btn\">Edit</button></td>"
 							+"</tr>");
 					}
 
@@ -124,6 +124,12 @@
 			function getDataFromServer(isNext){
 				loadAJAX(data, function(result){onDataSuccess(result, isNext)});
 			}
+
+			$(document).on('click','.edit-btn',function(){
+
+				alert("edit");
+
+			});
 
 			$("#search-btn").click(function(){
 

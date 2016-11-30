@@ -80,9 +80,9 @@
 							+"<th>Mahasiswa</th>"
 							+"<th>Jenis Sidang</th>"
 							+"<th>Judul</th>"
+							+"<th>Waktu dan Lokasi</th>"
 							+"<th>Dosen Pembimbing</th>"
 							+"<th>Dosen Penguji</th>"
-							+"<th>Waktu dan Lokasi</th>"
 							+"<th>Action</th>"
 							+"</tr>");
 					$("#table-jadwal-sidang").append("</thead>");
@@ -116,7 +116,7 @@
 							+"<td>"+waktuDanLokasi+"</td>"
 							+"<td>"+pembimbing+"</td>"
 							+"<td>"+penguji+"</td>"
-							+"<td><button class=\"btn btn-success\">Edit</button></td>"
+							+"<td><button class=\"btn btn-success edit-btn\">Edit</button></td>"
 							+"</tr>");
 					}
 
@@ -132,6 +132,12 @@
 				loadAJAX(data, function(result){onDataSuccess(result, isNext)});
 			}
 
+			$(document).on('click','.edit-btn',function(){
+
+				alert("edit");
+
+			});
+
 			$("#nav-next-btn").click(function(){
 				start += countPref[countPref.length-1];
 				data = {start: start};
@@ -143,6 +149,10 @@
 				data = {start: start};
 				countPref.pop();
 				getDataFromServer(false);
+			});
+
+			$("#tambah-jadwal-sidang-btn").click(function(){
+				alert("Tambah Jadwal Sidang");
 			});
 
 		});
@@ -179,6 +189,7 @@
 </head>
 <body>
 	<h1>Jadwal Sidang Mahasiswa</h1>
+	<button class="btn btn-success btn-block containers" id="tambah-jadwal-sidang-btn">Tambah</button>
 	<table class="table table-hover containers" id="table-jadwal-sidang">
 
 	</table>

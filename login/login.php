@@ -55,11 +55,17 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
 					if($result_dosen !== FALSE){
 						$row_dosen = pg_fetch_array($result_dosen);
 						if($row_dosen !== FALSE){
-
-							$_SESSION["username"] = $_POST["username"];
-							$_SESSION["role"] = "dosen";
-							$output = array("result"=>"match", "message"=>$row);
-							echo json_encode($output);
+							$password_from_server = $row_dosen["password"];
+							$password_from_user = $_POST["password"];
+							if($password_from_server === $password_from_user){
+								$_SESSION["username"] = $_POST["username"];
+								$_SESSION["role"] = "dosen";
+								$output = array("result"=>"match", "message"=>$row_dosen);
+								echo json_encode($output);
+							}else{
+								$row = array("result"=>"dismatch", "message"=>"password wrong");
+								echo json_encode($row);
+							}
 
 						}else{
 							$row_dosen = array("result"=>"dismatch", "message"=>"username ".$_POST["username"]." tidak terdaftar");

@@ -17,7 +17,7 @@
 			}
 		}
 
-		$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
+		$sql.=  " ORDER BY M.Nama ,JMKS.NamaMKS ,JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
 
 		$result = pg_query($conn, $sql);
 

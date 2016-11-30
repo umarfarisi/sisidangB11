@@ -33,7 +33,7 @@
 		<?php
 			if(isset($_SESSION["username"])){
 
-				$sql = "SELECT * FROM MAHASISWA WHERE username = '".$_SESSION["username"]."';";
+				$sql = "SELECT * FROM Mahasiswa WHERE username = '".$_SESSION["username"]."';";
 				$result = pg_query($conn, $sql);
 				
 				if($result !== FALSE){
