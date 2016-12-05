@@ -50,16 +50,16 @@
 				$output = array('sql' => $sql, 'result' => "sukses", 'data' => $row, 'count'=> count($row));
 				echo json_encode($output);
 			}else{
-				$output = array('sql' => $sql, 'result' => " gagal row false", 'data' => "[]", 'count'=> 0);
+				$output = array('sql' => $sql, 'result' => "sukses", 'data' => "[]", 'count'=> 0);
 				echo json_encode($output);
 			}
 		}else{
-			$output = array('sql' => $sql, 'result' => "gagal result false", 'data' => "[]", 'count'=> 0);
+			$output = array('sql' => $sql, 'result' => "sukses", 'data' => "[]", 'count'=> 0);
 			echo json_encode($output);
 		}
 		
 	}else{
-		$output = array('result' => "gagal transfer data", 'data' => "[]", 'count'=> 0);
+		$output = array('result' => "sukses", 'data' => "[]", 'count'=> 0);
 		echo json_encode($output);
 	}
 

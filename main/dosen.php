@@ -57,7 +57,7 @@
 				var json = JSON.parse(result);
 				if(json.result === "sukses"){
 					var data = json.data;
-					for(var index = 0 ; index < data.length ; index++){
+					for(var index = 0 ; index < json.count ; index++){
 						if(data[index].day == day){
 							$("#day-"+data[index].day).css("background-color","#009688");
 						}else{

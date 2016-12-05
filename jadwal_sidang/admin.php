@@ -85,7 +85,7 @@
 					$("#table-jadwal-sidang").append("</tbody>");
 					$("#table-jadwal-sidang").append("<tbody>");
 
-					for(var i = 0 ; i < rows.length && i < 10 ; i++){
+					for(var i = 0 ; i < data.count && i < 10 ; i++){
 						var mahasiswa = rows[i].mahasiswa;
 						var jenisSidang = rows[i].jenis_sidang;
 						var judul = rows[i].judul;
