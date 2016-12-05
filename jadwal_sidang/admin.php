@@ -47,27 +47,28 @@
 
 				if(data.result === "sukses"){
 					var rows = data.data;
-					if(isNext){
-						countPref.push(data.count);
 
-						if(data.count > 10){
-							countPref.pop();
-							countPref.push(10);
-							nextNav = true;
-						}else{
-							nextNav = false;
-						}
+					if(rows.length === 0){
+						nextNav = prefNav = false;
 					}else{
-						nextNav = true;
+						if(isNext){
+							countPref.push(data.count);
+
+							if(data.count > 10){
+								countPref.pop();
+								countPref.push(10);
+								nextNav = true;
+							}else{
+								nextNav = false;
+							}
+						}else{
+							nextNav = true;
+						}
+						prefNav = start !== 0;
 					}
+					showOrHideNavButton();
 
 					$("#total-row p span").html("Count: "+countPref[countPref.length-1]);
-
-					prefNav = start !== 0;
-
-					nextNav = prefNav = rows.length !== 0;
-
-					showOrHideNavButton();
 
 					$("#table-jadwal-sidang").empty();
 					$("#table-jadwal-sidang").append("<thead>");

@@ -10,6 +10,7 @@
 			var nextNav;
 			var prefNav;
 			var data;
+			var sorted;
 
 			initVariable();
 			getDataFromServer(true);
@@ -20,7 +21,8 @@
 				start = 0;
 				nextNav = false;
 				prefNav = false;
-				data = {start: start, username: sessionStorage.getItem("user")};
+				sorted = "waktu"
+				data = {start: start, sorted:sorted, username: sessionStorage.getItem("user")};
 			}
 
 			function loadAJAX(data, onSuccess){
@@ -46,27 +48,28 @@
 
 				if(data.result === "sukses"){
 					var rows = data.data;
-					if(isNext){
-						countPref.push(data.count);
 
-						if(data.count > 10){
-							countPref.pop();
-							countPref.push(10);
-							nextNav = true;
-						}else{
-							nextNav = false;
-						}
+					if(rows.length === 0){
+						nextNav = prefNav = false;
 					}else{
-						nextNav = true;
+						if(isNext){
+							countPref.push(data.count);
+
+							if(data.count > 10){
+								countPref.pop();
+								countPref.push(10);
+								nextNav = true;
+							}else{
+								nextNav = false;
+							}
+						}else{
+							nextNav = true;
+						}
+						prefNav = start !== 0;
 					}
+					showOrHideNavButton();
 
 					$("#total-row p span").html("Count: "+countPref[countPref.length-1]);
-
-					prefNav = start !== 0;
-
-					nextNav = prefNav = rows.length !== 0;
-
-					showOrHideNavButton();
 
 					$("#table-jadwal-sidang").empty();
 					$("#table-jadwal-sidang").append("<thead>");
@@ -144,15 +147,22 @@
 
 			$("#nav-next-btn").click(function(){
 				start += countPref[countPref.length-1];
-				data = {start: start, username: sessionStorage.getItem("user")};
+				data = {start: start, sorted: sorted , username: sessionStorage.getItem("user")};
 				getDataFromServer(true);
 			});
 			
 			$("#nav-pref-btn").click(function(){
 				start -= countPref[countPref.length-2];
-				data = {start: start, username: sessionStorage.getItem("user")};
+				data = {start: start, sorted: sorted ,username: sessionStorage.getItem("user")};
 				countPref.pop();
 				getDataFromServer(false);
+			});
+
+			$("#sorted-by").change(function(){
+				initVariable();
+				sorted = $(this).val();
+				data = {start: start, sorted: sorted ,username: sessionStorage.getItem("user")};
+				getDataFromServer(true);
 			});
 
 		});
@@ -188,12 +198,20 @@
 	  	.daftar{
 	  		padding: 10px;
 	  	}
+	  	.sorted-input, h4{
+	  		margin-bottom: 10px;
+	  	}
 	</style>
 </head>
 <body>
 	<h1>Jadwal Sidang Mahasiswa</h1>
+	<h4 class="containers">Sorted By:</h4>
+	<select class="form-control sorted-input containers" id="sorted-by">
+	  <option value="waktu">Waktu</option>
+	  <option value="jenissidang">Jenis Sidang</option>
+	  <option value="mahasiswa">Mahasiswa</option>
+	</select>
 	<table class="table table-hover containers" id="table-jadwal-sidang">
-
 	</table>
 	<div id="total-row" class="containers">
 		<p><span></span></p>
