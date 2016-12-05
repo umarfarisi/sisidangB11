@@ -17,7 +17,15 @@
 			}
 		}
 
-		$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
+		if(isset($_POST['sorted'])){
+			if($_POST['sorted'] === 'jenissidang'){
+				$sql.=  " ORDER BY JMKS.NamaMKS LIMIT 11 OFFSET ".$_POST["start"].";";
+			}else if($_POST['sorted'] === 'mahasiswa'){
+				$sql.=  " ORDER BY M.NPM LIMIT 11 OFFSET ".$_POST["start"].";";
+			}else if($_POST['sorted'] === 'waktu'){
+				$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
+			}
+		}
 
 		$result = pg_query($conn, $sql);
 

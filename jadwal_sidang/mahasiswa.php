@@ -10,6 +10,8 @@
 		if(isset($_SESSION["username"])){
 			$sql = "SELECT MKS.Judul, JS.tanggal, JS.Jam_Mulai, JS.Jam_Selesai, R.NamaRuangan, MKS.IsSiapSidang, D.Nama AS NamaDosenPembimbing FROM MATA_KULIAH_SPESIAL MKS, JADWAL_SIDANG JS, RUANGAN R, MAHASISWA M, DOSEN_PEMBIMBING DPN, DOSEN D WHERE MKS.IdMKS = JS.IdMKS AND JS.IdRuangan = R.IdRuangan AND M.NPM = MKS.NPM AND DPN.IdMKS = MKS.IdMKS AND DPN.NIPDosenPembimbing = D.NIP AND M.username = '".$_SESSION["username"]."';";
 
+			echo "<script>console.log(\"$sql\")</script>";
+
 			$result = pg_query($conn, $sql);
 
 			$sql_dosen_penguji = "SELECT D.Nama FROM DOSEN D, DOSEN_PENGUJI DP, MATA_KULIAH_SPESIAL MKS, MAHASISWA M WHERE D.NIP = DP.NIPDosenPenguji AND DP.IDMKS = MKS.IDMKS AND MKS.NPM = M.NPM AND M.username = '".$_SESSION["username"]."';";
@@ -33,7 +35,7 @@
 							echo "<th>Waktu Sidang</th><td>".$row[$i]["jam_mulai"]."</td>";
 							echo "</tr>";
 							echo "<tr>";
-							echo "<th>Dosen Pembimbing</th><td>".$row[$i]["namadosenpembimbing"]."<span><b>Status: </b>Izin maju sidang, Kumpul hard copy</span></td>";
+							echo "<th>Dosen Pembimbing</th><td>".$row[$i]["namadosenpembimbing"]."<span><b> Status: </b>Izin maju sidang, Kumpul hard copy</span></td>";
 							echo "</tr>";
 							echo "<tr>";
 							echo "<th>Dosen Penguji</th><td>";

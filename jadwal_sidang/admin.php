@@ -10,6 +10,7 @@
 			var nextNav;
 			var prefNav;
 			var data;
+			var sorted;
 
 			initVariable();
 			getDataFromServer(true);
@@ -20,7 +21,8 @@
 				start = 0;
 				nextNav = false;
 				prefNav = false;
-				data = {start: start};
+				sorted = "waktu"
+				data = {start: start, sorted: sorted};
 			}
 
 			function loadAJAX(data, onSuccess){
@@ -148,19 +150,26 @@
 
 			$("#nav-next-btn").click(function(){
 				start += countPref[countPref.length-1];
-				data = {start: start};
+				data = {start: start, sorted: sorted};
 				getDataFromServer(true);
 			});
 			
 			$("#nav-pref-btn").click(function(){
 				start -= countPref[countPref.length-2];
-				data = {start: start};
+				data = {start: start, sorted: sorted};
 				countPref.pop();
 				getDataFromServer(false);
 			});
 
 			$("#tambah-jadwal-sidang-btn").click(function(){
 				alert("Tambah Jadwal Sidang");
+			});
+
+			$("#sorted-by").change(function(){
+				initVariable();
+				sorted = $(this).val();
+				data = {start: start, sorted: sorted};
+				getDataFromServer(true);
 			});
 
 		});
@@ -193,13 +202,21 @@
 	  		max-width: 1000px;
 	  		margin: auto;
 	  	}
+	  	.sorted-input, h4{
+	  		margin-bottom: 10px;
+	  	}
 	</style>
 </head>
 <body>
 	<h1>Jadwal Sidang Mahasiswa</h1>
+	<h4 class="containers">Sorted By:</h4>
+	<select class="form-control sorted-input containers" id="sorted-by">
+	  <option value="waktu">Waktu</option>
+	  <option value="jenissidang">Jenis Sidang</option>
+	  <option value="mahasiswa">Mahasiswa</option>
+	</select>
 	<button class="btn btn-success btn-block containers" id="tambah-jadwal-sidang-btn">Tambah</button>
 	<table class="table table-hover containers" id="table-jadwal-sidang">
-
 	</table>
 	<div id="total-row" class="containers">
 		<p><span></span></p>
