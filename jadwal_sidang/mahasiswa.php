@@ -52,14 +52,14 @@
 					}
 				}else{
 					// echo "Data Tidak Ada";
-					echo "Tidak Ada Data untuk ditampilkan";
+					echo "<h2>Tidak Ada Data untuk ditampilkan</h2>";
 				}
 			}else{
 				// echo "Data Tidak Ada";
-				echo "Tidak Ada Data untuk ditampilkan";
+				echo "<h2>Tidak Ada Data untuk ditampilkan</h2>";
 			}
 		}else{
-			echo "Tidak Ada Data untuk ditampilkan";
+			echo "<h2>Tidak Ada Data untuk ditampilkan</h2>";
 		}
 
 	?>
