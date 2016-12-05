@@ -19,6 +19,21 @@
 	  		margin: 10px auto;
 	  	}
 	</style>
+	<script type="text/javascript">
+      $ ( document ). ready ( function (){
+          cekUser();
+
+          //Untuk mengecek apakah user sudah login atau belum
+          function cekUser(){
+            if(sessionStorage.getItem("user") === null){
+              window.open("../login","_self");
+            }else{
+              $("#username").html("Welcome "+sessionStorage.getItem("user")+", ");
+            }
+          }
+
+      });
+    </script>
 </head>
 <body>
 
