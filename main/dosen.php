@@ -20,11 +20,6 @@
 				month = cDate.getMonth();
 				year = cDate.getFullYear();
 				day = cDate.getDate();
-
-				//dummy;
-				month = 10;
-				year = 2011;
-				day = 3;
 			}
 
 			function hideMenuWhitchNotAllowedToAccess(){
@@ -172,17 +167,6 @@
 <h3 id="head-calendar">November 2016</h3>
 
 <table id="calender" class="table table-hover containers">
-	<thead>
-		<tr>
-			<th>Senin</th>
-		    <th>Selasa</th>
-		    <th>Rabu</th>
-		    <th>Kamin</th>
-		    <th>Jumat</th>
-		    <th>Sabtu</th>
-		    <th>Minggu</th>
-		</tr>
-	</thead>
 	<tbody>
 		
 	</tbody>
