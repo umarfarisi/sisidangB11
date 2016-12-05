@@ -63,16 +63,9 @@
 
 					prefNav = start !== 0;
 
-					if(nextNav){
-						$("#nav-next-btn").css("display","inline-block");
-					}else{
-						$("#nav-next-btn").css("display","none");
-					}
-					if(prefNav){
-						$("#nav-pref-btn").css("display","inline-block");
-					}else{
-						$("#nav-pref-btn").css("display","none");
-					}
+					nextNav = prefNav = rows.length !== 0;
+
+					showOrHideNavButton();
 
 					$("#table-jadwal-sidang").empty();
 					$("#table-jadwal-sidang").append("<thead>");
@@ -124,7 +117,22 @@
 
 
 				}else{
+					nextNav = prefNav = false;
 
+					showOrHideNavButton();
+				}
+			}
+
+			function showOrHideNavButton(){
+				if(nextNav){
+					$("#nav-next-btn").css("display","inline-block");
+				}else{
+					$("#nav-next-btn").css("display","none");
+				}
+				if(prefNav){
+					$("#nav-pref-btn").css("display","inline-block");
+				}else{
+					$("#nav-pref-btn").css("display","none");
 				}
 			}
 
