@@ -6,7 +6,13 @@ $ ( document ). ready ( function (){
 	function cekUser(){
 		if(sessionStorage.getItem("user") !== null){
 			window.open("../Main","_self");
+		}else{
+			loadAJAX({method:"clear_data"},onSuccessCekUser);
 		}
+	}
+
+	function onSuccessCekUser(result){
+		
 	}
 
 	$('#loginButton').click(function(){

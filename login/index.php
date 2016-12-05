@@ -1,7 +1,3 @@
-<?php
-	session_start();
-	$_SESSION["role"] = "BLUM ADA";
-?>
 <!DOCTYPE html>
 <html>
 <head>

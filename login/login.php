@@ -1,9 +1,10 @@
 <?php
 
+session_start();
+
 if(isset($_POST["username"]) && isset($_POST["password"])){
 
 	include "../database-config.php";
-	session_start();
 	
 	if (!$conn) {
 		die("Connection failed: " . mysqli_connect_error());
@@ -84,6 +85,8 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
 
 	pg_close($conn);
 
+}else if(isset($_POST['method'])){
+	$_SESSION["role"] = "BLUM ADA";
 }else{
 	echo "data gagal ditransfer";
 }
