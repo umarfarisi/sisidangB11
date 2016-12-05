@@ -17,15 +17,7 @@
 			}
 		}
 
-		if(isset($_POST['sorted'])){
-			if($_POST['sorted'] === 'jenissidang'){
-				$sql.=  " ORDER BY JMKS.NamaMKS LIMIT 11 OFFSET ".$_POST["start"].";";
-			}else if($_POST['sorted'] === 'mahasiswa'){
-				$sql.=  " ORDER BY M.USERNAME LIMIT 11 OFFSET ".$_POST["start"].";";
-			}else if($_POST['sorted'] === 'waktu'){
-				$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
-			}
-		}
+		$sql.=  " ORDER BY JS.Tanggal, JS.Jam_Mulai, JS.Jam_Selesai LIMIT 11 OFFSET ".$_POST["start"].";";
 
 		$result = pg_query($conn, $sql);
 
@@ -78,16 +70,16 @@
 				echo json_encode($output);
 			}else{
 				// echo "Data Tidak Ada";
-				$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+				$output = array("sql" => $sql,'result' => "sukses", 'data' => "[]", 'count'=> 0);
 				echo json_encode($output);
 			}
 		}else{
 			// echo "Data Tidak Ada";
-			$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+			$output = array("sql" => $sql,'result' => "sukses", 'data' => "[]", 'count'=> 0);
 			echo json_encode($output);
 		}
 	}else{
-		$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+		$output = array('result' => "gagal transfer data", 'data' => "[]", 'count'=> 0);
 		echo json_encode($output);
 	}
 

@@ -26,7 +26,7 @@
 			}
 
 			function loadAJAX(data, onSuccess){
-				var url = "http://localhost/sisidangB11/main/admin-data.php";
+				var url = "http://localhost/sisidangB11/jadwal_sidang/admin-data.php";
 				$.ajax({
 					type : 'POST',
 					url : url,

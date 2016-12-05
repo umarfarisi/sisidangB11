@@ -23,13 +23,13 @@
 				data = {start: start};
 			}
 
-			function loadAJAX(data, onSuccess){
+			function loadAJAX(dataPrams, onSuccess){
 				var url = "http://localhost/sisidangB11/main/admin-data.php";
 				$.ajax({
 					type : 'POST',
 					url : url,
 					dataType : 'text',
-					data : data,
+					data : dataPrams,
 					success : onSuccess,
 					error : function(a,error,z){
 						alert("Data transmitte error "+error);
@@ -38,10 +38,10 @@
 			}
 
 			function onDataSuccess(results, isNext){
-
-				console.log(results);
+				// console.log(results);
 
 				var data = JSON.parse(results);
+				console.log(data);
 
 				if(data.result === "sukses"){
 					var rows = data.data;
@@ -85,10 +85,9 @@
 							+"<th>Action</th>"
 							+"</tr>");
 					$("#table-jadwal-sidang").append("</thead>");
-					$("#table-jadwal-sidang").append("</tbody>");
 					$("#table-jadwal-sidang").append("<tbody>");
 
-					for(var i = 0 ; i < rows.length && i < 10 ; i++){
+					for(var i = 0 ; i < data.count && i < 10 ; i++){
 						var mahasiswa = rows[i].mahasiswa;
 						var jenisSidang = rows[i].jenis_sidang;
 						var waktuDanLokasi = rows[i].tanggal+" || "+rows[i].jam_mulai+"-"+rows[i].jam_selesai+" || "+rows[i].namaruangan;
@@ -133,17 +132,22 @@
 
 			$("#search-btn").click(function(){
 
-				initVariable();
-
-				data = {
-						start: start,
-						searchBy: $("#search-by").val(),
-						term: $("#search-by-term").val(),
-						jenisSidang: $("#search-by-jenis-sidang").val(),
-						npm: $("#search-by-npm").val()
-					};
-
-				getDataFromServer(true);
+				if($("#search-by").val() !== 'default'){
+					initVariable();
+					if(($("#search-by").val() === 'mahasiswa' && $("#search-by-npm").val() !== 'default') ||
+						($("#search-by").val() === 'jenisSidang' && $("#search-by-jenis-sidang").val() !== 'default' && $("#search-by-term").val() !== 'default')){
+						data = {
+								start: start,
+								searchBy: $("#search-by").val(),
+								term: $("#search-by-term").val(),
+								jenisSidang: $("#search-by-jenis-sidang").val(),
+								npm: $("#search-by-npm").val()
+							};
+						getDataFromServer(true);
+					}else{
+						alert("Please select all criteria");
+					}
+				}
 			});
 
 			$("#search-by").change(function(){
