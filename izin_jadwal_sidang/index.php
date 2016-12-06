@@ -2,6 +2,7 @@
 session_start();
 include '../database-config.php';
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,7 +94,7 @@ SQL;
                 }
 
                 $result = pg_query($conn, $query);
-                $schedule = pg_fetch_assoc($result);
+                $schedule = pg_fetch_all($result);
 
                 foreach ($schedule as $event) {
                     if ($event['username']) {
@@ -117,6 +118,8 @@ SQL;
                         echo '</ul></td><td><a href="confirm_permit.php?idjadwal=' . $event['idjadwal'] . '" role="button" class="btn btn-default">Izinkan</button></td>';
                     }
                 }
+            } else {
+                header('Location: ../login');
             }
             ?>
             </tbody>
