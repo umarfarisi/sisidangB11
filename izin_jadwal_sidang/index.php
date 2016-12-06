@@ -13,8 +13,9 @@ include '../database-config.php';
 <body>
 <div class="container">
     <div class="row">
-        <h3>Izin Jadwal Sidang <span style="color:red;"><?php echo '(' . 'admin' . ')' ?></span></h3>
-        <p>Sort by <a href="#">[Mahasiswa]</a>, <a href="#">[Jenis sidang]</a>, <a href="#">[Waktu]</a></p>
+        <h3>Izin Jadwal Sidang</h3>
+        <p>Sort by <a href="?sortby=mahasiswa">[Mahasiswa]</a>, <a href="?sortby=jenis">[Jenis sidang]</a>, <a href="?sortby=waktu">[Waktu]</a></p>
+        <p><a href="<?php echo isset($_GET['sortby']) ? '?sortby=' . $_GET['sortby'] . '&asc=true' : '#' ?>">[Ascending]</a> <a href="<?php echo isset($_GET['sortby']) ? '?sortby=' . $_GET['sortby'] . '&asc=false' : '#' ?>">[Descending]</a></p>
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
@@ -28,18 +29,93 @@ include '../database-config.php';
             </thead>
             <tbody>
             <?php
-            $query = <<<SQL
+            if ($_SESSION['role'] == 'admin' || $_SESSION["role"] == 'dosen') {
+                if (!isset($_GET['sortby']) || $_GET['sortby'] == 'waktu') {
+                    if (!isset($_GET['asc']) || $_GET['asc'] == 'true') {
+                        $query = <<<SQL
 select * from jadwal_sidang
   natural join mata_kuliah_spesial
   natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by tanggal, jam_mulai
+SQL;
+                    } else {
+                        $query = <<<SQL
+select * from jadwal_sidang
+  natural join mata_kuliah_spesial
+  natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by tanggal, jam_mulai desc
+SQL;
+                    }
+                } else if ($_GET['sortby'] == 'mahasiswa') {
+                    if (!isset($_GET['asc']) || $_GET['asc'] == 'true') {
+                        $query = <<<SQL
+select * from jadwal_sidang
+  natural join mata_kuliah_spesial
+  natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by nama
+SQL;
+                    } else {
+                        $query = <<<SQL
+select * from jadwal_sidang
+  natural join mata_kuliah_spesial
+  natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by nama desc
+SQL;
+                    }
+                } else if ($_GET['sortby'] == 'jenis') {
+                    if (!isset($_GET['asc']) || $_GET['asc'] == 'true') {
+                        $query = <<<SQL
+select * from jadwal_sidang
+  natural join mata_kuliah_spesial
+  natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by namamks
+SQL;
+                    } else {
+                        $query = <<<SQL
+select * from jadwal_sidang
+  natural join mata_kuliah_spesial
+  natural join ruangan
+  natural join mahasiswa
+  where izinmajusidang=true
+  order by namamks desc
+SQL;
+                    }
+                }
+
+                $result = pg_query($conn, $query);
+                $schedule = pg_fetch_assoc($result);
+
+                foreach ($schedule as $event) {
+                    if ($event['username']) {
+                        echo '<tr><td>' . $event['nama'] . '</td><td>' . $event['namamks'] . '</td><td>' . $event['judul'] . '</td><td>' . $event['tanggal'] . ' ' . $event['jam_mulai'] . ' - ' . $event['jam_selesai'] . ' ' . $event['namaruangan'] . '</td><td><ul>';
+
+                        $idmks = $event['idmks'];
+
+                        $query = <<<SQL
+select * from dosen_pembimbing
+  natural join dosen
+  where idmks=$idmks
 SQL;
 
-            $result = pg_query($conn, $query);
-            $schedule = pg_fetch_all($result);
+                        $result1 = pg_query($conn, $query);
+                        $lecturers = pg_fetch_all($result);
 
-            foreach($schedule as $event) {
-                if ($event['username']) {
-                    echo '<tr><td>-</td><td>-</td><td>' . $event['judul'] . '</td><td>' . $event['tanggal'] . ' ' . $event['jammulai'] . ' - ' . $event['jamselesai'] . ' ' . $event['namaruangan'] . '</td><td>-</td><td><button class="btn btn-default" type="submit">Izinkan</button></td>';
+                        foreach ($lecturers as $lecturer) {
+                            echo '<li>' . $lecturer['name'] . '</li>';
+                        }
+
+                        echo '</ul></td><td><a href="confirm_permit.php?idjadwal=' . $event['idjadwal'] . '" role="button" class="btn btn-default">Izinkan</button></td>';
+                    }
                 }
             }
             ?>
