@@ -70,16 +70,16 @@
 				echo json_encode($output);
 			}else{
 				// echo "Data Tidak Ada";
-				$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+				$output = array("sql" => $sql,'result' => "sukses", 'data' => "[]", 'count'=> 0);
 				echo json_encode($output);
 			}
 		}else{
 			// echo "Data Tidak Ada";
-			$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+			$output = array("sql" => $sql,'result' => "sukses", 'data' => "[]", 'count'=> 0);
 			echo json_encode($output);
 		}
 	}else{
-		$output = array('result' => "gagal", 'data' => "[]", 'count'=> 0);
+		$output = array('result' => "gagal transfer data", 'data' => "[]", 'count'=> 0);
 		echo json_encode($output);
 	}
 

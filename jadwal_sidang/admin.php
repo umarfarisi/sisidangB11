@@ -10,6 +10,7 @@
 			var nextNav;
 			var prefNav;
 			var data;
+			var sorted;
 
 			initVariable();
 			getDataFromServer(true);
@@ -20,11 +21,12 @@
 				start = 0;
 				nextNav = false;
 				prefNav = false;
-				data = {start: start};
+				sorted = "waktu"
+				data = {start: start, sorted: sorted};
 			}
 
 			function loadAJAX(data, onSuccess){
-				var url = "http://localhost/sisidangB11/main/admin-data.php";
+				var url = "http://localhost/sisidangB11/jadwal_sidang/admin-data.php";
 				$.ajax({
 					type : 'POST',
 					url : url,
@@ -45,34 +47,28 @@
 
 				if(data.result === "sukses"){
 					var rows = data.data;
-					if(isNext){
-						countPref.push(data.count);
 
-						if(data.count > 10){
-							countPref.pop();
-							countPref.push(10);
-							nextNav = true;
-						}else{
-							nextNav = false;
-						}
+					if(rows.length === 0){
+						nextNav = prefNav = false;
 					}else{
-						nextNav = true;
+						if(isNext){
+							countPref.push(data.count);
+
+							if(data.count > 10){
+								countPref.pop();
+								countPref.push(10);
+								nextNav = true;
+							}else{
+								nextNav = false;
+							}
+						}else{
+							nextNav = true;
+						}
+						prefNav = start !== 0;
 					}
+					showOrHideNavButton();
 
 					$("#total-row p span").html("Count: "+countPref[countPref.length-1]);
-
-					prefNav = start !== 0;
-
-					if(nextNav){
-						$("#nav-next-btn").css("display","inline-block");
-					}else{
-						$("#nav-next-btn").css("display","none");
-					}
-					if(prefNav){
-						$("#nav-pref-btn").css("display","inline-block");
-					}else{
-						$("#nav-pref-btn").css("display","none");
-					}
 
 					$("#table-jadwal-sidang").empty();
 					$("#table-jadwal-sidang").append("<thead>");
@@ -89,7 +85,7 @@
 					$("#table-jadwal-sidang").append("</tbody>");
 					$("#table-jadwal-sidang").append("<tbody>");
 
-					for(var i = 0 ; i < rows.length && i < 10 ; i++){
+					for(var i = 0 ; i < data.count && i < 10 ; i++){
 						var mahasiswa = rows[i].mahasiswa;
 						var jenisSidang = rows[i].jenis_sidang;
 						var judul = rows[i].judul;
@@ -124,7 +120,22 @@
 
 
 				}else{
+					nextNav = prefNav = false;
 
+					showOrHideNavButton();
+				}
+			}
+
+			function showOrHideNavButton(){
+				if(nextNav){
+					$("#nav-next-btn").css("display","inline-block");
+				}else{
+					$("#nav-next-btn").css("display","none");
+				}
+				if(prefNav){
+					$("#nav-pref-btn").css("display","inline-block");
+				}else{
+					$("#nav-pref-btn").css("display","none");
 				}
 			}
 
@@ -140,19 +151,26 @@
 
 			$("#nav-next-btn").click(function(){
 				start += countPref[countPref.length-1];
-				data = {start: start};
+				data = {start: start, sorted: sorted};
 				getDataFromServer(true);
 			});
 			
 			$("#nav-pref-btn").click(function(){
 				start -= countPref[countPref.length-2];
-				data = {start: start};
+				data = {start: start, sorted: sorted};
 				countPref.pop();
 				getDataFromServer(false);
 			});
 
 			$("#tambah-jadwal-sidang-btn").click(function(){
 				alert("Tambah Jadwal Sidang");
+			});
+
+			$("#sorted-by").change(function(){
+				initVariable();
+				sorted = $(this).val();
+				data = {start: start, sorted: sorted};
+				getDataFromServer(true);
 			});
 
 		});
@@ -185,13 +203,21 @@
 	  		max-width: 1000px;
 	  		margin: auto;
 	  	}
+	  	.sorted-input, h4{
+	  		margin-bottom: 10px;
+	  	}
 	</style>
 </head>
 <body>
 	<h1>Jadwal Sidang Mahasiswa</h1>
+	<h4 class="containers">Sorted By:</h4>
+	<select class="form-control sorted-input containers" id="sorted-by">
+	  <option value="waktu">Waktu</option>
+	  <option value="jenissidang">Jenis Sidang</option>
+	  <option value="mahasiswa">Mahasiswa</option>
+	</select>
 	<button class="btn btn-success btn-block containers" id="tambah-jadwal-sidang-btn">Tambah</button>
 	<table class="table table-hover containers" id="table-jadwal-sidang">
-
 	</table>
 	<div id="total-row" class="containers">
 		<p><span></span></p>

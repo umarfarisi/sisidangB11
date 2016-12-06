@@ -12,10 +12,10 @@
 <h1>Login to Sisidang</h1>
 <div id="formLogin">
 	<div class="form-group">
-		<input type="text" class="form-control" id="username" placeholder="username" value="belawati">
+		<input type="text" class="form-control" id="username" placeholder="username">
 	</div>
 	<div class="form-group">
-		<input type="password" class="form-control" id="password" placeholder="password" value="qdlgxwzmsv">
+		<input type="password" class="form-control" id="password" placeholder="password">
 	</div>	
 	<div>
 		<button id="loginButton" class="btn btn-primary btn-block">Login</button>
