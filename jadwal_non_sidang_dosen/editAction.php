@@ -8,7 +8,7 @@ $repetisi = $_POST['repetisi'];
 
 $query = <<<SQL
 update jadwal_non_sidang
-  set nipdosen=$nipdosen, tanggalmulai=$tanggalmulai, tanggalselesai=$tanggalselesai, alasan=$alasan
+  set nipdosen='$nipdosen', tanggalmulai='$tanggalmulai', tanggalselesai='$tanggalselesai', alasan='$alasan'
   where idjadwal=$idjadwal;
 SQL;
 

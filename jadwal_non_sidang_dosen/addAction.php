@@ -7,7 +7,7 @@ $repetisi = $_POST['repetisi'];
 
 $query = <<<SQL
 insert into jadwal_non_sidang (tanggalmulai,tanggalselesai,repetisi,alasan,nipdosen)
-  values ($tanggalmulai, $tanggalselesai, $repetisi, $alasan, $nipdosen);
+  values ('$tanggalmulai', '$tanggalselesai', '$repetisi', '$alasan', '$nipdosen');
 SQL;
 
 header('Location: ./index.php');

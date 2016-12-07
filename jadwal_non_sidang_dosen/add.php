@@ -28,7 +28,7 @@ include '../database-config.php';
 
                                 $query = <<<SQL
 select * from dosen
-  where username=$username
+  where username='$username'
 SQL;
 
                                 $result = pg_query($conn,$sql);

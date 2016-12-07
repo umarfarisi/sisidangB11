@@ -39,7 +39,7 @@ $event = pg_fetch_assoc($result);
 
                                 $query = <<<SQL
 select * from dosen
-  where username=$username
+  where username='$username'
 SQL;
 
                                 $result = pg_query($conn,$sql);
